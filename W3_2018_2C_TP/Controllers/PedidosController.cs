@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using W3_2018_2C_TP.Models.service;
+using W3_2018_2C_TP.Service;
 
 namespace W3_2018_2C_TP.Controllers
 {
@@ -15,15 +15,24 @@ namespace W3_2018_2C_TP.Controllers
         {
             //iniciar pedido
             //a)Desde cero
+            ViewBag.ListaGusto = pedidoServicio.ObtenerGustos();
             return View();
         }
-   
+
         [HttpPost]
-        public ActionResult Iniciar(int idOtroPedido)
+        public ActionResult Iniciar(Pedido p)
         {
-            pedidoServicio.Inicializar(idOtroPedido);//no funca
+            pedidoServicio.Agregar(p);
+            
             return RedirectToAction("Lista", "Pedidos");
         }
+
+        //[HttpPost]
+        //public ActionResult Iniciar(int idOtroPedido)
+        //{
+        //    pedidoServicio.Inicializar(idOtroPedido);//no funca
+        //    return RedirectToAction("Lista", "Pedidos");
+        //}
         [HttpGet]
         public ActionResult Iniciado()
         {
@@ -42,6 +51,7 @@ namespace W3_2018_2C_TP.Controllers
         [HttpGet]
         public ActionResult Lista()
         {
+           
             List<Pedido> pedidos = pedidoServicio.Listar();
             return View(pedidos);
         }

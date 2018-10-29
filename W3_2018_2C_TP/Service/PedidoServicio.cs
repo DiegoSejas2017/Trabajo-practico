@@ -3,21 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace W3_2018_2C_TP.Models.service
+namespace W3_2018_2C_TP.Service
 {
     public class PedidoServicio
     {
         public Entities Context = new Entities();
-        
-        public void Agregar(Pedido pedido)
+
+        public void Agregar(Pedido p)
         {
-            Context.Pedido.Add(pedido);
+            //p.FechaCreacion = DateTime.Now.ToString("dd/MM/yyyy");
+           
+            Context.Pedido.Add(p);
             Context.SaveChanges();
         }
 
         public void Inicializar(int id)
         {
-            
+
         }
         public List<Pedido> Listar()
         {
@@ -29,7 +31,7 @@ namespace W3_2018_2C_TP.Models.service
         {
             Pedido pedidoEliminar = Context.Pedido.FirstOrDefault(pedido => pedido.IdPedido == id);
             Context.Pedido.Remove(pedidoEliminar);
-            Context.SaveChanges();   
+            Context.SaveChanges();
         }
 
 
@@ -54,6 +56,10 @@ namespace W3_2018_2C_TP.Models.service
             pedidoModificar.InvitacionPedidoGustoEmpanadaUsuario = pedido.InvitacionPedidoGustoEmpanadaUsuario;
             pedidoModificar.Usuario = pedido.Usuario;
             Context.SaveChanges();
+        }
+        public List<GustoEmpanada> ObtenerGustos()
+        {
+            return Context.GustoEmpanada.ToList();
         }
     }
 }
