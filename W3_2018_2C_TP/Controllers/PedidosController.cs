@@ -3,37 +3,68 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using W3_2018_2C_TP.Models.service;
 
 namespace W3_2018_2C_TP.Controllers
 {
     public class PedidosController : Controller
     {
-        // GET: Pedidos
+        PedidoServicio pedidoServicio = new PedidoServicio();
+        [HttpGet]
         public ActionResult Iniciar()
         {
+            //iniciar pedido
+            //a)Desde cero
             return View();
         }
-
-        public ActionResult Lista()
+   
+        [HttpPost]
+        public ActionResult Iniciar(int idOtroPedido)
         {
-            return View();
+            pedidoServicio.Inicializar(idOtroPedido);//no funca
+            return RedirectToAction("Lista", "Pedidos");
         }
-
+        [HttpGet]
         public ActionResult Iniciado()
         {
+            //iniciar pedido
+            //c)pedido iniciado
             return View();
         }
-
-        public ActionResult Editar()
+     
+        [HttpPost]
+        public ActionResult Iniciado(int idPedido)
         {
+            //iniciar pedido
+            //c)pedido iniciado
             return View();
         }
-
-        public ActionResult Eliminar()
+        [HttpGet]
+        public ActionResult Lista()
         {
-            return View();
+            List<Pedido> pedidos = pedidoServicio.Listar();
+            return View(pedidos);
+        }
+        [HttpGet]
+        public ActionResult Editar(int id)
+        {
+            Pedido pedidoModificar = pedidoServicio.ObtenerPorId(id);
+            return View(pedidoModificar);
         }
 
+        [HttpPost]
+        public ActionResult Modificar(Pedido pedido)
+        {
+            pedidoServicio.Modificar(pedido);
+            return RedirectToAction("Lista", "Pedidos");
+
+        }
+        public ActionResult Eliminar(int id)
+        {
+            pedidoServicio.Eliminar(id);
+            return RedirectToAction("Lista", "Pedidos");
+        }
+       
         public ActionResult Elegir()
         {
             return View();
@@ -43,6 +74,5 @@ namespace W3_2018_2C_TP.Controllers
         {
             return View();
         }
-
     }
 }
